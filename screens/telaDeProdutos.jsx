@@ -1,63 +1,67 @@
+// Importa o React
+import React from 'react';
 
-import { Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+// Importa os componentes visuais
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function TelaDeProduto() {
+// A tela recebe a lista de 'produtos' que veio do App.js
+export default function TelaDeProdutos({ produtos }) {
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={styles.container}>
-        <View style ={styles.containerDosComponentes}>
-    
-          <Text style={styles.titulo}>Produtos</Text>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.titulo}>Sua Lista de Produtos</Text>
 
-        </View>
-       
-      </SafeAreaView>
-    </SafeAreaProvider>
+      {/* ScrollView permite que a lista seja rolável se ficar muito grande */}
+      <ScrollView style={styles.listaContainer}>
+        {
+          // Se a lista estiver vazia (produtos.length === 0), mostra uma mensagem.
+          produtos.length === 0 ? (
+            <Text style={styles.textoListaVazia}>Nenhum produto na lista.</Text>
+          ) : (
+            // Se a lista tiver itens, usamos o '.map()' para criar um <Text> para cada produto.
+            // '.map()' é como um "para cada produto na lista, faça isso:".
+            produtos.map((produto, index) => (
+              <View key={index} style={styles.itemDaLista}>
+                <Text style={styles.textoDoItem}>{produto}</Text>
+              </View>
+            ))
+          )
+        }
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
+// Estilos para a tela da lista
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-     backgroundColor: 'hsla(60, 2%, 89%, 1.00)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 15,
-  }, titulo: {
-    fontSize:25,
-    fontWeight:700,
-  }, caixaDeTexto:{
-    width:"100%",
-    height:60,
-    backgroundColor: '#ffffffff',
-    borderWidth:1,
-    borderColor:'#7D4F50',
-    borderRadius:100,
-    paddingLeft:15,
-
-  },botaoDeEnviar:{
-    width:"100%",
-    height:60,
-    backgroundColor: '#7D4F50',
-    borderRadius:100,
-    display: "flex",
-    alignItems: 'center',
-    justifyContent: 'center',
-    },containerDosComponentes:{
-    width:"100%",
-    display: "flex",
-    gap: 12,
-    alignItems: "center",
-    },imagem:{
-      width:200,
-      height:200,
-      resizeMode: "cover",
-      borderRadius:100,
-
-    }
-  
+    backgroundColor: '#f0f0f0',
+  },
+  titulo: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginVertical: 40,
+  },
+  listaContainer: {
+    paddingHorizontal: 20, // Espaço nas laterais da lista
+  },
+  // Estilo para cada caixinha de produto na lista
+  itemDaLista: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+    marginBottom: 10, // Espaço entre os itens
+  },
+  textoDoItem: {
+    fontSize: 18,
+  },
+  // Estilo para a mensagem de "lista vazia"
+  textoListaVazia: {
+    textAlign: 'center',
+    fontSize: 16,
+    color: 'gray',
+    marginTop: 50,
+  },
 });
-
-
-
